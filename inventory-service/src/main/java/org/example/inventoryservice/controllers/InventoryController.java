@@ -1,7 +1,8 @@
 package org.example.inventoryservice.controllers;
 
 import lombok.AllArgsConstructor;
-import org.example.inventoryservice.models.Product;
+import org.example.inventoryservice.dtos.ProductRequest;
+import org.example.inventoryservice.dtos.ProductResponse;
 import org.example.inventoryservice.services.InventoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +17,14 @@ public class InventoryController {
     private final InventoryService inventoryService;
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<Product>> getProducts() {
-        List<Product> list = inventoryService.getAll();
+    public ResponseEntity<List<ProductResponse>> getProducts() {
+        List<ProductResponse> list = inventoryService.getAll();
         return ResponseEntity.ok(list);
     }
 
     @PostMapping("/addProduct")
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
-        Product newProduct = inventoryService.addProduct(product);
+    public ResponseEntity<ProductResponse> addProduct(@RequestBody ProductRequest product) {
+        ProductResponse newProduct = inventoryService.addProduct(product);
         return ResponseEntity.status(201).body(newProduct);
     }
 
@@ -34,12 +35,12 @@ public class InventoryController {
     }
 
     @PutMapping("/updateProduct")
-    public ResponseEntity<Product> updateProduct(@RequestParam long productId,@RequestBody Product product) {
+    public ResponseEntity<ProductResponse> updateProduct(@RequestParam long productId,@RequestBody ProductRequest product) {
         return ResponseEntity.ok(inventoryService.updateProduct(productId, product));
     }
 
     @GetMapping("/getProduct/{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable long id) {
+    public ResponseEntity<ProductResponse> getProduct(@PathVariable long id) {
         return ResponseEntity.ok(inventoryService.getProduct(id));
     }
 
